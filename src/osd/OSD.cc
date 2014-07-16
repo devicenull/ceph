@@ -7846,9 +7846,9 @@ void OSD::handle_op(OpRequestRef& op, OSDMapRef& osdmap)
   m->clear_payload();
 
   // object name too long?
-  if (m->get_oid().name.size() > MAX_CEPH_OBJECT_NAME_LEN) {
+  if (m->get_oid().name.size() > g_conf->osd_max_object_name_len) {
     dout(4) << "handle_op '" << m->get_oid().name << "' is longer than "
-	    << MAX_CEPH_OBJECT_NAME_LEN << " bytes!" << dendl;
+	    << g_conf->osd_max_object_name_len << " bytes" << dendl;
     service.reply_op_error(op, -ENAMETOOLONG);
     return;
   }
