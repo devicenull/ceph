@@ -4034,6 +4034,11 @@ int ReplicatedPG::do_osd_ops(OpContext *ctx, vector<OSDOp>& ops)
 	  result = -EFBIG;
 	  break;
 	}
+	if (cct->_conf->osd_max_attr_name_len > 0 &&
+	    op.xattr.name_len > cct->_conf->osd_max_attr_name_len) {
+	  result = -ENAMETOOLONG;
+	  break;
+	}
 	if (!obs.exists) {
 	  ctx->mod_desc.create();
 	  t->touch(soid);
