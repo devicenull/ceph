@@ -139,13 +139,13 @@ if test x"$linux" = x"yes"; then
   # libblkid
   AC_CHECK_HEADER([blkid/blkid.h], [],
     AC_MSG_ERROR([blkid/blkid.h not found (libblkid-dev, libblkid-devel)]))
-  AC_CHECK_LIB([blkid], [blkid_devno_to_wholedisk], [],
+  AC_CHECK_LIB([blkid], [blkid_devno_to_wholedisk], [true],
     AC_MSG_FAILURE([libblkid not found]))
 
   # libudev
   AC_CHECK_HEADER([libudev.h], [],
     AC_MSG_ERROR([libudev.h not found (libudev-dev, libudev-devel)]))
-  AC_CHECK_LIB([udev], [udev_monitor_receive_device], [],
+  AC_CHECK_LIB([udev], [udev_monitor_receive_device], [true],
     AC_MSG_FAILURE([libudev not found]))
 fi
 
@@ -264,7 +264,7 @@ AC_ARG_WITH([profiler],
 	     esac],
             [with_profiler=no])
 AS_IF([test "x$with_profiler" = xyes],
-	    [AC_CHECK_LIB([profiler], [ProfilerFlush], [],
+	    [AC_CHECK_LIB([profiler], [ProfilerFlush], [true],
 	        	  [AC_MSG_FAILURE([--with-profiler was given but libprofiler (libgoogle-perftools-dev on debian) not found])])],
 	    [])
 AM_CONDITIONAL(WITH_PROFILER, test "$with_profiler" = "yes")
@@ -621,13 +621,13 @@ AC_CHECK_HEADER([boost/program_options/option.hpp], [],
 
 # If we have the boost system library installed, then we may want to link
 # with it.
-AC_CHECK_LIB(boost_system-mt, main, [],
-    [AC_CHECK_LIB(boost_system, main, [],
+AC_CHECK_LIB(boost_system-mt, main, [true],
+    [AC_CHECK_LIB(boost_system, main, [true],
         AC_MSG_NOTICE(["Boost system library not found."]))])
 
 # Find the right boost_thread library.
-AC_CHECK_LIB(boost_thread-mt, main, [],
-    [AC_CHECK_LIB(boost_thread, main, [],
+AC_CHECK_LIB(boost_thread-mt, main, [true],
+    [AC_CHECK_LIB(boost_thread, main, [true],
         AC_MSG_FAILURE(["Boost thread library not found."]))])
 
 #
